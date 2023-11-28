@@ -1,4 +1,4 @@
-Welcome to HearthStone v0.1.3
+Welcome to HearthStone v0.1.4
 
 What this does:
 
