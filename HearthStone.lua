@@ -55,7 +55,7 @@ function HS.OnLoad()
 	SLASH_HS1 = "/hs";
 	SlashCmdList["HS"] = function(msg) HS.Command(msg); end
 
-	HSFrame:RegisterEvent( "PLAYER_ENTERING_WORLD" )
+	HSFrame:RegisterEvent( "LOADING_SCREEN_DISABLED" )
 	HSFrame:RegisterEvent( "PLAYER_REGEN_DISABLED" )
 	HSFrame:RegisterEvent( "PLAYER_REGEN_ENABLED" )
 
@@ -79,7 +79,8 @@ function HS.PLAYER_REGEN_ENABLED()
 		HS.combatUpdate = nil
 	end
 end
-function HS.PLAYER_ENTERING_WORLD()
+function HS.LOADING_SCREEN_DISABLED()
+	HS.LogMsg( "LOADING_SCREEN_DISABLED", HS_settings.debug )
 	HS.PruneLog()
 	HS.UpdateMacro()
 end
@@ -115,6 +116,7 @@ function HS.UpdateMacro()
 		hsLine = "/use "
 		for _, modKey in ipairs( HS.modOrder ) do
 			if HS_settings[modKey] then
+				HS.LogMsg( "List: "..modKey, HS_settings.debug )
 				hsLine = hsLine.."[mod:"..modKey.."]"..HS.GetItemFromList(HS_settings[modKey])..";"
 			end
 		end

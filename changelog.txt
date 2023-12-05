@@ -1,3 +1,5 @@
-Changes since 0.1.4..
+Changes since 0.1.5..
 
-* a4da7a8 2023-11-28 12:00:08 -0800 -  (HEAD -> master, tag: 0.1.4, origin/master) Remove french and german i18n files, add image <opussf>
+* eea7614 2023-12-04 22:06:45 -0800 -  (HEAD -> master, tag: 0.1.5, origin/master) Merge branch 'develop' <opussf>
+* a284638 2023-12-04 20:28:06 -0800 -  (develop) Merge branch 'translate' into develop <opussf>
+* b06c6c3 2023-12-04 20:19:30 -0800 -  (translate) Fixing the spanish <opussf>
