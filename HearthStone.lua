@@ -60,13 +60,22 @@ function HS.OnLoad()
 	HSFrame:RegisterEvent( "PLAYER_REGEN_ENABLED" )
 
 	-- HSFrame:RegisterEvent( "NEW_TOY_ADDED" )
-	-- HSFrame:RegisterEvent( "TOYS_UPDATED" )
+	HSFrame:RegisterEvent( "TOYS_UPDATED" )
+end
+function HS.OnUpdate()
+	HS.LogMsg( "OnUpdate", HS_settings.debug )
+	if HS.lastToysUpdated and HS.lastToysUpdated + 1 > time() then
+		HS.UpdateMacro()
+		HS.LogMsg( "Remove OnUpdate", HS_settings.debug )
+		HSFrame:SetScript( "OnUpdate", nil )
+	end
 end
 function HS.NEW_TOY_ADDED()
 	HS.LogMsg( "NEW_TOY_ADDED", HS_settings.debug )
 end
 function HS.TOYS_UPDATED()
-	HS.LogMsg( "TOYS_UPDATED - This seems to be frequent.", HS_settings.debug )
+	HS.lastToysUpdated = time()
+	HS.LogMsg( "TOYS_UPDATED - "..HS.lastToysUpdated, HS_settings.debug )
 end
 function HS.PLAYER_REGEN_DISABLED()
 	-- combat start
@@ -140,19 +149,6 @@ function HS.UpdateMacro()
 		HS.Print( string.format( HS.L["ERROR"]..": "..HS.L["Macro length > 255 chars."].." "..HS.L["Please edit source macro."] ) )
 	end
 end
-function HS.ScanToys()
-	-- write this better.
-	HS.LogMsg( "You have "..C_ToyBox.GetNumToys().." toys.", HS_settings.debug )
-	HS.LogMsg( "Showing "..C_ToyBox.GetNumFilteredToys().." toys.", HS_settings.debug )
-
-	for i=1, C_ToyBox.GetNumFilteredToys() do
-		local itemID = C_ToyBox.GetToyFromIndex(i)
-		if itemID then
-			_, toyName, _, isFavorite, hasFanfare, itemQuality = C_ToyBox.GetToyInfo( itemID )
-			HS.LogMsg( "item:"..itemID.." >"..toyName..": "..(isFavorite and "fav" or "meh")..": "..(hasFanfare and "fanfare" or "boring"))
-		end
-	end
-end
 function HS.GetItemFromList( list )
 	if list then
 		local returnItem
@@ -168,7 +164,7 @@ function HS.GetItemFromList( list )
 				HS.LogMsg( "Picking "..r.."/"..#list.." ("..list[r]..")", HS_settings.debug )
 				count = count + 1
 				if list[r] == "6948" then
-					HS.LogMsg("HearthStone",HS_settings.debug)
+					HS.LogMsg("HearthStone: "..(GetItemCount(list[r]) or "no count"), HS_settings.debug)
 					r = (GetItemCount(list[r]) == 1 and r or nil) -- HearthStone is an item, clear the selection if not in bags
 				else
 					HS.LogMsg( "PlayerHasToy: "..(PlayerHasToy(list[r]) and "true" or "false" ), HS_settings.debug)
