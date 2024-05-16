@@ -13,8 +13,8 @@ COLOR_GOLD = "|cffcfb52b"
 COLOR_NEON_BLUE = "|cff4d4dff"
 COLOR_END = "|r"
 
--- saved log file
-HS_log = {}
+-- -- saved log file
+-- HS_log = {}
 HS_settings = {}
 
 HS_settings = {
@@ -52,7 +52,7 @@ function HS.PruneLog()
 	end
 end
 function HS.OnLoad()
-	SLASH_HS1 = "/hs";
+	SLASH_HS1 = "/hs"
 	SlashCmdList["HS"] = function(msg) HS.Command(msg); end
 
 	HSFrame:RegisterEvent( "LOADING_SCREEN_DISABLED" )
@@ -60,7 +60,7 @@ function HS.OnLoad()
 	HSFrame:RegisterEvent( "PLAYER_REGEN_ENABLED" )
 
 	-- HSFrame:RegisterEvent( "NEW_TOY_ADDED" )
-	HSFrame:RegisterEvent( "TOYS_UPDATED" )
+	-- HSFrame:RegisterEvent( "TOYS_UPDATED" )
 end
 function HS.OnUpdate()
 	HS.LogMsg( "OnUpdate", HS_settings.debug )
@@ -70,18 +70,12 @@ function HS.OnUpdate()
 		HSFrame:SetScript( "OnUpdate", nil )
 	end
 end
-function HS.NEW_TOY_ADDED()
-	HS.LogMsg( "NEW_TOY_ADDED", HS_settings.debug )
-end
-function HS.TOYS_UPDATED()
-	HS.lastToysUpdated = time()
-	HS.LogMsg( "TOYS_UPDATED - "..HS.lastToysUpdated, HS_settings.debug )
-end
 function HS.PLAYER_REGEN_DISABLED()
 	-- combat start
 	HS.inCombat = true
 end
 function HS.PLAYER_REGEN_ENABLED()
+	-- combat end
 	HS.inCombat = nil
 	if HS.combatUpdate then
 		HS.UpdateMacro()
@@ -111,13 +105,16 @@ function HS.UpdateMacro()
 	if macroName then
 		HS.ListToTable( macroText, macroTable )
 	else
-		macroTable = {"#showtooltip","#HS","/use"}  -- simple macro to create if no macro by name given.
+		macroTable = {"#showtooltip","#HS"}  -- simple macro to create if no macro by name given.
 	end
+	local hsText = "#HS"
 	-- look for #HS and replace the following line
 	for lnum, line in ipairs( macroTable ) do
 		HS.LogMsg( lnum.."> "..line )
-		if strfind( string.upper(line), "#HS" ) then
-			hsLineNum = lnum + 1
+		s, e, hsT = strfind( line, "(#[Hh][Ss])")
+		if s then
+			hsLineNum = lnum
+			hsText = hsT
 		end
 	end
 	-- Use modOrder to create a /use line, and replace / insert into the macroTable
@@ -129,7 +126,7 @@ function HS.UpdateMacro()
 				hsLine = hsLine.."[mod:"..modKey.."]"..HS.GetItemFromList(HS_settings[modKey])..";"
 			end
 		end
-		hsLine = hsLine..(HS.GetItemFromList(HS_settings.normal) or "")
+		hsLine = hsLine..(HS.GetItemFromList(HS_settings.normal) or "")..hsText
 		macroTable[hsLineNum] = hsLine
 		HS_settings.macro = macroTable
 	else
@@ -146,7 +143,7 @@ function HS.UpdateMacro()
 			CreateMacro( HS_settings.macroname, "INV_MISC_QUESTIONMARK", macroText )
 		end
 	else
-		HS.Print( string.format( HS.L["ERROR"]..": "..HS.L["Macro length > 255 chars."].." "..HS.L["Please edit source macro."] ) )
+		HS.LogMsg( string.format( HS.L["ERROR"]..": "..HS.L["Macro length > 255 chars."].." "..HS.L["Please edit source macro."] ), true )
 	end
 end
 function HS.GetItemFromList( list )
@@ -193,7 +190,7 @@ function HS.ListToTable( list, t )
 end
 function HS.SetMacroName( nameIn )
 	if nameIn == "" then
-		HS.Print( string.format( HS.L["HearthStone macro name is currently: %s"], ( HS_settings.macroname or HS.L["<is not set>"] ) ) )
+		HS.LogMsg( string.format( HS.L["HearthStone macro name is currently: %s"], ( HS_settings.macroname or HS.L["<is not set>"] ) ), true )
 	else
 		HS_settings.macroname = nameIn
 		HS.Print( string.format( HS.L["Set macro name to: %s"], HS_settings.macroname ) )
@@ -330,7 +327,9 @@ function HS.ParseCmd(msg)
 end
 function HS.Command( msg )
 	local cmd, param = HS.ParseCmd(msg)
-	cmd = string.lower( cmd )
+	if cmd then
+		cmd = string.lower( cmd )
+	end
 	if HS.commandList[cmd] and HS.commandList[cmd].alias then
 		cmd = HS.commandList[cmd].alias
 	end
