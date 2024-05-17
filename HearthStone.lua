@@ -60,7 +60,7 @@ function HS.OnLoad()
 	HSFrame:RegisterEvent( "PLAYER_REGEN_ENABLED" )
 
 	-- HSFrame:RegisterEvent( "NEW_TOY_ADDED" )
-	-- HSFrame:RegisterEvent( "TOYS_UPDATED" )
+	HSFrame:RegisterEvent( "TOYS_UPDATED" )
 end
 function HS.OnUpdate()
 	HS.LogMsg( "OnUpdate", HS_settings.debug )
@@ -69,6 +69,10 @@ function HS.OnUpdate()
 		HS.LogMsg( "Remove OnUpdate", HS_settings.debug )
 		HSFrame:SetScript( "OnUpdate", nil )
 	end
+end
+function HS.TOYS_UPDATED()
+	HS.lastToysUpdated = time()
+	HS.LogMsg( "TOYS_UPDATED - "..HS.lastToysUpdated, HS_settings.debug )
 end
 function HS.PLAYER_REGEN_DISABLED()
 	-- combat start
