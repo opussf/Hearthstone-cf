@@ -1,8 +1,8 @@
 ## Title: HearthStone
 ## Interface: 100207
-## Notes: HearthStone (1.0-beta)
+## Notes: HearthStone (1.0.1-beta)
 ## Author: opussf
-## Version: 1.0-beta
+## Version: 1.0.1-beta
 ## Description: Allows building a Hearthstone macro with random stones
 ## Description-esES: Permite construir una macro de Piedra de hogar con piedras aleatorias.
 ## Description-esMX: Permite construir una macro de Piedra de hogar con piedras aleatorias.

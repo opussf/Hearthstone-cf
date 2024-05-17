@@ -13,8 +13,8 @@ COLOR_GOLD = "|cffcfb52b"
 COLOR_NEON_BLUE = "|cff4d4dff"
 COLOR_END = "|r"
 
--- -- saved log file
--- HS_log = {}
+-- saved log file
+HS_log = {}
 HS_settings = {}
 
 HS_settings = {
