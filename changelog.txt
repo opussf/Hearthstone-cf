@@ -1,3 +1,5 @@
-Changes since 1.0.3..
+Changes since 1.0.4..
 
-* 3a1ea8a 2024-07-26 18:00:26 -0700 -  (HEAD -> master, tag: 1.0.3) Version change <opussf>
+* 776a543 2024-08-13 18:13:20 -0700 -  (HEAD -> master, tag: 1.0.4) Merge branch 'develop' <opussf>
+* b7eef50 2024-08-13 18:13:05 -0700 -  (develop) Merge branch '110000' into develop <opussf>
+* a7c438b 2024-08-13 18:12:34 -0700 -  (110000) 110002 updates <opussf>

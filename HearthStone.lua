@@ -1,6 +1,7 @@
-HS_MSG_ADDONNAME, HS = ...   -- is given the name and a table
-HS_MSG_VERSION   = GetAddOnMetadata( HS_MSG_ADDONNAME, "Version" )
-HS_MSG_AUTHOR    = GetAddOnMetadata( HS_MSG_ADDONNAME, "Author" )
+HS_SLUG, HS      = ...
+HS_MSG_ADDONNAME = C_AddOns.GetAddOnMetadata( HS_SLUG, "Title" )
+HS_MSG_VERSION   = C_AddOns.GetAddOnMetadata( HS_SLUG, "Version" )
+HS_MSG_AUTHOR    = C_AddOns.GetAddOnMetadata( HS_SLUG, "Author" )
 
 COLOR_RED = "|cffff0000"
 COLOR_GREEN = "|cff00ff00"
