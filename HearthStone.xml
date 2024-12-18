@@ -9,9 +9,6 @@
 			<OnEvent>
 				HS[event](self, ...)
 			</OnEvent>
-			<OnUpdate>
-				HS.OnUpdate()
-			</OnUpdate>
 		</Scripts>
 	</Frame>
 </Ui>

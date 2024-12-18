@@ -57,19 +57,12 @@ function HS.OnLoad()
 	SlashCmdList["HS"] = function(msg) HS.Command(msg); end
 
 	HSFrame:RegisterEvent( "LOADING_SCREEN_DISABLED" )
+	HSFrame:RegisterEvent( "PLAYER_STARTED_MOVING" )
 	HSFrame:RegisterEvent( "PLAYER_REGEN_DISABLED" )
 	HSFrame:RegisterEvent( "PLAYER_REGEN_ENABLED" )
 
 	-- HSFrame:RegisterEvent( "NEW_TOY_ADDED" )
 	HSFrame:RegisterEvent( "TOYS_UPDATED" )
-end
-function HS.OnUpdate()
-	HS.LogMsg( "OnUpdate", HS_settings.debug )
-	if HS.lastToysUpdated and HS.lastToysUpdated + 1 > time() then
-		HS.UpdateMacro()
-		HS.LogMsg( "Remove OnUpdate", HS_settings.debug )
-		HSFrame:SetScript( "OnUpdate", nil )
-	end
 end
 function HS.TOYS_UPDATED()
 	HS.lastToysUpdated = time()
@@ -90,7 +83,14 @@ end
 function HS.LOADING_SCREEN_DISABLED()
 	HS.LogMsg( "LOADING_SCREEN_DISABLED", HS_settings.debug )
 	HS.PruneLog()
-	HS.UpdateMacro()
+	HS.shouldUpdateMacro = true
+end
+function HS.PLAYER_STARTED_MOVING()
+	if HS.shouldUpdateMacro then
+		HS.LogMsg( "PLAYER_STARTED_MOVING and shouldUpdateMacro", HS_settings.debug )
+		HS.shouldUpdateMacro = nil
+		HS.UpdateMacro()
+	end
 end
 function HS.UpdateMacro()
 	if HS.inCombat then
@@ -155,7 +155,7 @@ function HS.GetItemFromList( list )
 	if list then
 		local returnItem
 		if #list == 1 then
-			HS.LogMsg( "Only 1 item found in given list: "..list[1] )
+			HS.LogMsg( "Only 1 item found in given list: "..list[1], HS_settings.debug )
 			returnItem = list[1]
 		else
 			local r
@@ -163,7 +163,7 @@ function HS.GetItemFromList( list )
 			local count = 0
 			while( not r and count <= limit ) do
 				r = random(#list)
-				HS.LogMsg( "Picking "..r.."/"..#list.." ("..list[r]..")", HS_settings.debug )
+				HS.LogMsg( "Picking "..r.."/"..#list.." ("..list[r]..") "..(select(2, GetItemInfo(list[r])) or "nil"), HS_settings.debug )
 				count = count + 1
 				if list[r] == "6948" then
 					HS.LogMsg("HearthStone: "..(GetItemCount(list[r]) or "no count"), HS_settings.debug)
@@ -387,6 +387,10 @@ HS.commandList = {
 	[HS.L["mods"]] = {
 		["func"] = HS.Mods,
 		["help"] = {"", HS.L["List known modifers"]}
+	},
+	[HS.L["list"]] = {
+		["func"] = HS.Add,
+		["help"] = {HS.L["<mods>"], HS.L["List toys for a modifier"]}
 	},
 	[HS.L["debug"]] = {
 		["func"] = function() HS_settings.debug = not HS_settings.debug; HS.Print( "Debug is now: "..(HS_settings.debug and "on" or "off")); end,

@@ -1,8 +1,8 @@
 ## Title: HearthStone
-## Interface: 110005
-## Notes: HearthStone (v1.0.5)
+## Interface: 110007
+## Notes: HearthStone (v1.1)
 ## Author: opussf
-## Version: 1.0.5
+## Version: 1.1
 ## Description: Allows building a Hearthstone macro with random stones
 ## Description-esES: Permite construir una macro de Piedra de hogar con piedras aleatorias.
 ## Description-esMX: Permite construir una macro de Piedra de hogar con piedras aleatorias.

@@ -30,4 +30,5 @@ if GetLocale() == "esES" or GetLocale() == "esMX" then
     L.L["Remove toy from a modifier"] = "Eliminar juguete de un modificador"
     L.L["mods"] = "mods"
     L.L["List known modifers"] = "Lista de modificadores conocidos"
+    L.L["List toys for a modifier"] = "Enumerar juguetes para un modificador"
 end
