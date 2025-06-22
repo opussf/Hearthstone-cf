@@ -1,6 +1,42 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 	<!-- Version 2.0 -->
+	<Frame name="HSToy_template" enableMouse="true" virtual="true">
+		<Size x="500" y="36"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<!-- ICON -->
+				<Texture name="$parentIcon">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT"/>
+					</Anchors>
+				</Texture>
+				<FontString name="$parentToyName" inherits="GameFontNormal" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="4" y="-4"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentDelToyButton" inherits="UIPanelButtonTemplate">
+				<Size x="76" y="30" />
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="-10" y="-3" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Delete"])</OnLoad>
+					<OnClick>HS.DelToyButtonOnClick( self )</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+
 	<Frame name="HSFrame"  frameStrata="BACKGROUND" toplevel="false" parent="UIParent">
 		<Scripts>
 			<OnLoad>
@@ -9,6 +45,193 @@
 			<OnEvent>
 				HS[event](self, ...)
 			</OnEvent>
+		</Scripts>
+	</Frame>
+	<Frame name="HSConfig" toplevel="true" parent="UIParent" enableMouse="true" movable="true" hidden="true" resizable="false">
+		<Size x="700" y="500" />
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parent_BG" file="Interface\DialogFrame\UI-DialogBox-Background">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<!-- Header -->
+				<FontString name="$parent_Header" inherits="GameFontNormalLarge" text="HearthStone 2.0-beta">
+					<Anchors>
+						<Anchor point="TOP" relativePoint="TOP">
+							<Offset x="0" y="-10"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parent_Close" inherits="UIPanelCloseButton" parent="HSConfig">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="0" y="0"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>self:GetParent():Hide(); HS.UpdateMacros()</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parent_TagDropDownMenu" inherits="UIDropDownMenuTemplate" parentKey="TagDropDownMenu">
+				<Size x="50" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="0" y="-42"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<!-- <OnShow>HS.TagDropDownOnShow(self)</OnShow> -->
+					<!-- <OnLoad>Rested.UIDropDownOnLoad(self)</OnLoad> -->
+				</Scripts>
+			</Frame>
+			<Button name="$parent_DelTagButton" parentKey="DelTagButton" inherits="UIPanelButtonTemplate">
+				<Size x="76" y="30" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="170" y="-42" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Delete"])</OnLoad>
+					<OnClick>HS.TagButtonOnClick( self, "del" )</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_EditTagButton" parentKey="EditTagButton" inherits="UIPanelButtonTemplate">
+				<Size x="76" y="30" />
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_DelTagButton">
+						<Offset>
+							<AbsDimension x="120" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Rename"])</OnLoad>
+					<OnClick>HS.TagButtonOnClick( self, "edit" )</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox name="$parent_TagEditBox" parentKey="TagEditBox" inherits="InputBoxTemplate">
+				<Size x="150" y="30" />
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_EditTagButton">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetAutoFocus( false )</OnLoad>
+					<!-- <OnTextChanged>Rested.updateFilter()</OnTextChanged> -->
+				</Scripts>
+			</EditBox>
+			<Button name="$parent_AddTagButton" parentKey="AddTagButton" inherits="UIPanelButtonTemplate">
+				<Size x="76" y="30" />
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_TagEditBox">
+						<Offset>
+							<AbsDimension x="10" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Add"])</OnLoad>
+					<OnClick>HS.TagButtonOnClick( self, "add" )</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parent_ModifierDropDownMenu" inherits="UIDropDownMenuTemplate" parentKey="ModifierDropDownMenu">
+				<Size x="50" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="30" y="-84"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<!-- <OnLoad>HS.ModifierDropDownOnLoad(self)</OnLoad> -->
+					<!-- <OnLoad>Rested.UIDropDownOnLoad(self)</OnLoad> -->
+				</Scripts>
+			</Frame>
+			<Button name="$parent_ShowToyBox" inherits="UIPanelButtonTemplate">
+				<Size x="86" y="30"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="200" y="-84"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Toy Box"])</OnLoad>
+					<OnClick>HS.ToyBoxButtonOnClick( self )</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parent_ToyList" parentKey="ToyList">
+				<Size x="500" y="328"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="50" y="-120" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture setAllPoints="true">
+							<Color r="0" g="0" b="0" a="1" />
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Slider name="$parent_ToyListVSlider" orientation="VERTICAL" minValue="0" maxValue="100" defaultValue="0" valueStep="1">
+				<Size x="12" y="328"/>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_ToyList"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture setAllPoints="true">
+							<Color r="0" g="0" b="0" a="1" />
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>self:SetValue(0)</OnLoad>
+					<OnValueChanged>HS.UpdateUI()</OnValueChanged>
+				</Scripts>
+				<ThumbTexture name="$parentThumbTexture"
+						file="Interface\Buttons\UI-ScrollBar-Knob">
+					<Size x="12" y="25"/>
+				</ThumbTexture>
+			</Slider>
+			<EditBox name="$parent_Preview" autoFocus="false" enableMouse="false" enableKeyboard="false">
+				<Size x="650" y="32"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_ToyList" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
+				</Anchors>
+				<FontString inherits="GameFontHighlight"/>
+			</EditBox>
+		</Frames>
+		<Scripts>
+			<OnLoad>self:Hide()</OnLoad>
+			<OnMouseWheel>HS.UIMouseWheel( delta )</OnMouseWheel>
+			<OnReceiveDrag>HS.UIOnReceiveDrag( self )</OnReceiveDrag>
+			<OnMouseDown>HS.UIOnDragStart()</OnMouseDown>
+			<OnMouseUp>HS.UIOnDragStop()</OnMouseUp>
+			<OnHide>HS.UIOnHide()</OnHide>
 		</Scripts>
 	</Frame>
 </Ui>
