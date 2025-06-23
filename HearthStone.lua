@@ -240,116 +240,7 @@ function HS.ListToTable( list, t )
 	end
 	return t
 end
-function HS.Add( inParams )
-	-- takes optional mod string, link, to add or list
-	-- defaults to 'normal' for mod string
-	-- if the link is empty, list for that mod string.
-	HS.LogMsg( "Add: >"..inParams.."<", HS_settings.debug )
-	local modIn, linkIn, itemID = nil
-	for item in string.gmatch( inParams, '[^%s]+' ) do
-		HS.LogMsg( item, HS_settings.debug )
-		for _, modTest in ipairs( HS.modOrder ) do
-			if item == modTest then
-				modIn = item
-				item = nil
-			end
-		end
-		if item then
-			linkIn = (linkIn or "").." "..item
-		end
-	end
-	if not modIn then
-		modIn = "normal"
-	end
-	HS.LogMsg( "modIn : "..modIn, HS_settings.debug )
-	HS.LogMsg( "linkIn: "..(linkIn or "no link in"), HS_settings.debug )
 
-	if linkIn then
-		itemID = HS.GetItemIdFromLink( linkIn )
-		HS.LogMsg( "Adding "..linkIn.." to "..modIn, HS_settings.debug )
-		if HS_settings[modIn] then
-			table.insert( HS_settings[modIn], itemID )
-		else
-			HS_settings[modIn] = {itemID}
-		end
-		HS.UpdateMacros()
-	end
-
-	-- Print for given mod
-	if HS_settings[modIn] then
-		HS.Print( string.format( HS.L["Items for mod: %s"], modIn ) )
-		for _, itemID in ipairs( HS_settings[modIn] ) do
-			itemLink = select( 2, GetItemInfo( itemID ) )
-			HS.Print( ( itemLink or "nil" ) )
-		end
-	else
-		HS.Print( string.format( HS.L["No items for mod: %s"], modIn ) )
-	end
-end
-function HS.Remove( inParams )
-	-- takes optional mod string, link, to add or list
-	-- defaults to 'normal' for mod string
-	-- if the link is empty, list for that mod string.
-	HS.LogMsg( "Add: >"..inParams.."<", HS_settings.debug )
-	local modIn, linkIn, itemID = nil
-	for item in string.gmatch( inParams, '[^%s]+' ) do
-		HS.LogMsg( item, HS_settings.debug )
-		for _, modTest in ipairs( HS.modOrder ) do
-			if item == modTest then
-				modIn = item
-				item = nil
-			end
-		end
-		if item then
-			linkIn = (linkIn or "").." "..item
-		end
-	end
-	if not modIn then
-		modIn = "normal"
-	end
-	HS.LogMsg( "modIn : "..modIn, HS_settings.debug )
-	HS.LogMsg( "linkIn: "..(linkIn or "no link in"), HS_settings.debug )
-
-	if linkIn then
-		itemID = HS.GetItemIdFromLink( linkIn )
-		local rmIdx
-		for i, id in ipairs( HS_settings[modIn] ) do
-			if id == itemID then
-				rmIdx = i
-			end
-		end
-		if rmIdx then
-			table.remove( HS_settings[modIn], rmIdx )
-		end
-		if #HS_settings[modIn] == 0 then
-			HS_settings[modIn] = nil
-		end
-		HS.UpdateMacros()
-	end
-	-- Print for given mod
-	if HS_settings[modIn] then
-		HS.Print( string.format( HS.L["Items for mod: %s"], modIn ) )
-		for _, itemID in ipairs( HS_settings[modIn] ) do
-			itemLink = select( 2, GetItemInfo( itemID ) )
-			HS.Print( ( itemLink or "nil" ) )
-		end
-	else
-		HS.Print( string.format( HS.L["No items for mod: %s"], modIn ) )
-	end
-end
-function HS.Mods()
-	HS.Print( string.format( HS.L["Modifier list:"] ) )
-	for i, mod in ipairs( HS.modOrder ) do
-		HS.Print( i.."> "..mod )
-	end
-end
-function HS.GetItemIdFromLink( itemLink )
-	-- returns just the integer itemID
-	-- itemLink can be a full link, or just "item:999999999"
-	if itemLink then
-		return strmatch( itemLink, "item:(%d*)" )
-	end
-end
 function HS.ParseCmd(msg)
 	if msg then
 		local a,b,c = strfind(msg, "(%S+)")  --contiguous string of non-space characters
@@ -378,9 +269,6 @@ function HS.Command( msg )
 end
 function HS.PrintHelp()
 	HS.Print( string.format(HS.L["%s (%s) by %s"], HS_MSG_ADDONNAME, HS_MSG_VERSION, HS_MSG_AUTHOR ) )
-	if not HS_settings.macroname then
-		HS.Print( string.format( HS.L["Set the macro name to use."] ) )
-	end
 	for cmd, info in pairs(HS.commandList) do
 		if info.help then
 			local cmdStr = cmd
@@ -402,22 +290,6 @@ HS.commandList = {
 	[HS.L["update"]] = {
 		["func"] = HS.UpdateMacros,
 		["help"] = {"", HS.L["Update macro."]}
-	},
-	[HS.L["add"]] = {
-		["func"] = HS.Add,
-		["help"] = {HS.L["<mods>"].." "..HS.L["<link>"], HS.L["Add or list toys for a modifier"]}
-	},
-	[HS.L["remove"]] = {
-		["func"] = HS.Remove,
-		["help"] = {HS.L["<mods>"].." "..HS.L["<link>"], HS.L["Remove toy from a modifier"]}
-	},
-	[HS.L["mods"]] = {
-		["func"] = HS.Mods,
-		["help"] = {"", HS.L["List known modifers"]}
-	},
-	[HS.L["list"]] = {
-		["func"] = HS.Add,
-		["help"] = {HS.L["<mods>"], HS.L["List toys for a modifier"]}
 	},
 	[HS.L["debug"]] = {
 		["func"] = function() HS_settings.debug = not HS_settings.debug; HS.Print( "Debug is now: "..(HS_settings.debug and "on" or "off")); end,

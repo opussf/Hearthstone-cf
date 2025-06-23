@@ -1,17 +1,24 @@
 ## Title: HearthStone
 ## Interface: 110107
-## Notes: HearthStone (v2.0-beta)
+## Notes: HearthStone (v2.0-beta2)
 ## Author: opussf
-## Version: 2.0-beta
+## Version: 2.0-beta2
 ## Description: Allows building a Hearthstone macro with random stones
+## Description-deDE: Ermöglicht das Erstellen eines Hearthstone-Makros mit zufälligen Steinen.
 ## Description-esES: Permite construir una macro de Piedra de hogar con piedras aleatorias.
 ## Description-esMX: Permite construir una macro de Piedra de hogar con piedras aleatorias.
+## Description-frFR: Permet de créer une macro de pierre de foyer avec des pierres aléatoires.
 ## Description-ptBR: Permite construir uma macro de Hearthstone com pedras aleatórias
+## Description-ruRU: Позволяет создать макрос Камня возвращения со случайными камнями.
 ## SavedVariables: HS_settings HS_log
 ## SavedVariablesPerCharacter:
 localization_core.lua
+localization_de.lua
 localization_es.lua
+localization_fr.lua
+localization_it.lua
 localization_pt.lua
+localization_ru.lua
 
 HearthStone.lua
 HearthStoneUI.lua

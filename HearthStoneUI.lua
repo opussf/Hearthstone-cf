@@ -147,39 +147,40 @@ function HS.UpdateUI()
 	if HSConfig:IsVisible() and HS_settings.tags then
 		local tag = UIDropDownMenu_GetText( HSConfig_TagDropDownMenu )
 		local mod = UIDropDownMenu_GetText( HSConfig_ModifierDropDownMenu )
-		-- print( tag, mod )
-		local count = ( HS_settings.tags[tag][mod] and #HS_settings.tags[tag][mod] or 0 )
-		HSConfig_ToyListVSlider:SetMinMaxValues( 0, max( 0, count-9 ) )
-		if count > 0 then
-			local offset = math.floor( HSConfig_ToyListVSlider:GetValue() )
-			local name, icon, barName
-			for i = 1, 9 do
-				local idx = i + offset
-				if idx <= count then
-					name, _, _, _, _, _, _, _, _, icon = GetItemInfo(HS_settings.tags[tag][mod][idx])
-					if name then
-						barName = HS.bars[i].bar:GetName()
-						_G[barName.."ToyName"]:SetText( name )
-						_G[barName.."Icon"]:SetTexture( icon )
-						HS.bars[i].bar.itemID = HS_settings.tags[tag][mod][idx]
-						HS.bars[i].bar.itemIdx = idx
-						HS.bars[i].bar:Show()
+		if tag and mod then
+			local count = ( ( HS_settings.tags[tag] and HS_settings.tags[tag][mod] ) and #HS_settings.tags[tag][mod] or 0 )
+			HSConfig_ToyListVSlider:SetMinMaxValues( 0, max( 0, count-9 ) )
+			if count > 0 then
+				local offset = math.floor( HSConfig_ToyListVSlider:GetValue() )
+				local name, icon, barName
+				for i = 1, 9 do
+					local idx = i + offset
+					if idx <= count then
+						name, _, _, _, _, _, _, _, _, icon = GetItemInfo(HS_settings.tags[tag][mod][idx])
+						if name then
+							barName = HS.bars[i].bar:GetName()
+							_G[barName.."ToyName"]:SetText( name )
+							_G[barName.."Icon"]:SetTexture( icon )
+							HS.bars[i].bar.itemID = HS_settings.tags[tag][mod][idx]
+							HS.bars[i].bar.itemIdx = idx
+							HS.bars[i].bar:Show()
+						else
+							-- print( "name:", name, icon )
+							HS.toCache = HS.toCache or {}
+							HS.toCache[tonumber(HS_settings.tags[tag][mod][idx])] = true
+						end
 					else
-						-- print( "name:", name, icon )
-						HS.toCache = HS.toCache or {}
-						HS.toCache[tonumber(HS_settings.tags[tag][mod][idx])] = true
+						HS.bars[i].bar:Hide()
 					end
-				else
+				end
+			elseif( HS.bars and count == 0 ) then
+				for i = 1, 9 do
 					HS.bars[i].bar:Hide()
 				end
 			end
-		elseif( HS.bars and count == 0 ) then
-			for i = 1, 9 do
-				HS.bars[i].bar:Hide()
-			end
+			HSConfig_Preview:SetText( HS.MakeUseLine( tag ) )
+			HSConfig_Preview:SetCursorPosition(0)
 		end
-		HSConfig_Preview:SetText( HS.MakeUseLine( tag ) )
-		HSConfig_Preview:SetCursorPosition(0)
 	end
 end
 function HS.UIMouseWheel( delta )
@@ -227,4 +228,7 @@ end
 -------
 function HS.ToyBoxButtonOnClick( self )
 	ToggleCollectionsJournal(3)
+end
+function HS.UIAdjustButton( self )
+	self:SetWidth( self.Text:GetStringWidth() + 24 )
 end

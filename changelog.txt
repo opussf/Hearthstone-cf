@@ -1,44 +1,10 @@
-Changes since 2.0-beta..
+Changes since 2.0-beta2..
 
-* 55f815d 2025-06-21 22:47:39 -0700 -  (HEAD -> master, tag: 2.0-beta) Merge branch 'develop' <opussf>
-* 6f84beb 2025-06-21 22:46:45 -0700 -  (develop) Merge branch 'SinglePanel' into develop <opussf>
-* e1dfffa 2025-06-21 22:40:37 -0700 -  (origin/SinglePanel, SinglePanel) Less output <opussf>
-* 6ce3b05 2025-06-21 20:27:13 -0700 -  Preview text <opussf>
-* 72989f2 2025-06-21 19:55:54 -0700 -  Less logging <opussf>
-* 49e9fc0 2025-06-21 19:46:51 -0700 -  registers event to listen for toybox to move window. Window also re-centers on open. <opussf>
-* c0fa7d5 2025-06-21 19:05:42 -0700 -  Can drag window <opussf>
-* 24fff5d 2025-06-21 17:08:11 -0700 -  Default value is different.  Removing some debug.  UI starts hidden. <opussf>
-* e20d35c 2025-06-21 15:15:42 -0700 -  Hacky hack hack to get data <opussf>
-* 3158e02 2025-06-21 12:25:11 -0700 -  Try to force items to be updated <opussf>
-* f85eda7 2025-06-21 11:34:04 -0700 -  Don't limit beacuse of not a toy if more than one in list. <opussf>
-* a68c20d 2025-06-21 00:30:20 -0700 -  Close forces MacroUpdate, and Toybox show button <opussf>
-* 835165e 2025-06-21 00:04:11 -0700 -  Almost there <opussf>
-* 6edbf31 2025-06-20 23:12:43 -0700 -  Slider, mousewheel, and shows items <opussf>
-* 43c8bcc 2025-06-20 20:13:38 -0700 -  Yay!   Shows 3 bars <opussf>
-* 607e9c6 2025-06-19 17:36:35 -0700 -  Add button works <opussf>
-* 2c559a9 2025-06-19 12:33:24 -0700 -  Button sizes, and setText for editBox <opussf>
-* 06258a1 2025-06-19 00:26:23 -0700 -  Some renames, and dropdowns now show selected value <opussf>
-* 0613145 2025-06-18 19:23:05 -0700 -  Merge branch 'develop' into SinglePanel <opussf>
-* 718c78e 2025-06-18 19:19:01 -0700 -  Working on UI <opussf>
-* d9ee365 2025-06-18 13:18:24 -0700 -  Update to fix macro update <opussf>
-* af23451 2025-06-18 11:58:04 -0700 -  Another test, and a fix. <opussf>
-* d11d241 2025-06-18 01:08:28 -0700 -  Dropdown functions <opussf>
-* b31debc 2025-06-18 00:04:53 -0700 -  Macroname is gone <opussf>
-* a71bfc2 2025-06-17 23:40:31 -0700 -  Test clean up <opussf>
-* 8e276d8 2025-06-17 20:42:12 -0700 -  Still need to update tests <opussf>
-* dfb6da4 2025-06-17 20:41:06 -0700 -  Start of rewrite <opussf>
-* 4062412 2025-06-17 01:44:31 -0700 -  Starting to make it work <opussf>
-* 3c5279f 2025-06-16 00:54:30 -0700 -  Change to a single panel <opussf>
-* 3ff10b2 2025-06-16 00:05:49 -0700 -  (UI) Change of plan <opussf>
-* d1c6d0f 2025-06-15 16:53:24 -0700 -  UI Work <opussf>
-* 9cb80aa 2025-06-01 10:40:50 -0700 -  Tag edit 'works' <opussf>
-* 9b7f21b 2025-05-30 12:17:37 -0700 -  Layout change <opussf>
-* d0920df 2025-05-30 12:01:18 -0700 -  Remove file from tracking <opussf>
-* be71b2b 2025-05-30 12:00:43 -0700 -  save before delete <opussf>
-* 2c285d5 2025-05-30 11:59:26 -0700 -  Progress with EditBox <opussf>
-* e269359 2025-05-28 01:10:12 -0700 -  UI Tabs change tabs <opussf>
-* d84dbea 2025-05-26 23:04:17 -0700 -  Red on black with tabs. <opussf>
-* b3abaff 2025-05-26 15:24:05 -0700 -  UI first try <opussf>
-* 2672522 2025-05-11 13:58:44 -0700 -  Merge branch 'develop' into UI <opussf>
-* 7ee7ccf 2025-05-11 13:02:28 -0700 -  Merge branch 'develop' into UI <opussf>
-* d4a7161 2025-02-26 18:49:41 -1000 -  UI <opussf>
+* 9a0a660 2025-06-23 12:30:13 -0700 -  (HEAD -> master, tag: 2.0-beta2, origin/master) Merge branch 'develop' <opussf>
+* d2d557b 2025-06-23 12:28:22 -0700 -  (origin/develop, develop) Merge branch 'SinglePanel' into develop <opussf>
+* 5897fab 2025-06-23 12:21:08 -0700 -  (origin/SinglePanel, SinglePanel) Italian translation. <opussf>
+* f117ac1 2025-06-23 11:42:15 -0700 -  Button resize based on text <opussf>
+* faf177d 2025-06-23 00:52:51 -0700 -  Toy Box <opussf>
+* 1a87619 2025-06-23 00:11:05 -0700 -  Translation for Descirption <opussf>
+* 1672d42 2025-06-23 00:08:43 -0700 -  More localization <opussf>
+* ee3ab55 2025-06-23 00:03:26 -0700 -  removing older command line system, and some translation <opussf>
