@@ -1,3 +1,4 @@
-Changes since 2.0..
+Changes since 2.0.1..
 
-* 0e0a161 2025-06-25 18:31:50 -0700 -  (HEAD -> master, tag: 2.0, origin/master) Description update <opussf>
+* c267612 2025-06-26 11:02:38 -0700 -  (HEAD -> master, tag: 2.0.1, origin/master) Merge branch 'renameBug' <opussf>
+* 521500d 2025-06-26 10:52:48 -0700 -  Bug fix for rename <opussf>

@@ -108,8 +108,8 @@ function HS.TagButtonOnClick( self, action )
 				HS_settings.tags[selectedTag] = nil
 				HS.TagDropDownBuild( HSConfig_TagDropDownMenu )
 				HS.editTag = newTag
-				UIDropDownMenu_SetText( HSConfig_TagDropDownMenu, info.value )
-				HSConfig_TagEditBox:SetText( info.value )
+				UIDropDownMenu_SetText( HSConfig_TagDropDownMenu, HS.editTag )
+				HSConfig_TagEditBox:SetText( HS.editTag )
 			end
 		end
 	elseif action == "del" then

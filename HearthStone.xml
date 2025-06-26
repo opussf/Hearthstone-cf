@@ -67,7 +67,7 @@
 			</Layer>
 			<Layer level="ARTWORK">
 				<!-- Header -->
-				<FontString name="$parent_Header" inherits="GameFontNormalLarge" text="HearthStone 2.0">
+				<FontString name="$parent_Header" inherits="GameFontNormalLarge" text="HearthStone 2.0.1">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP">
 							<Offset x="0" y="-10"/>
