@@ -1,18 +1,10 @@
 HS_SLUG, HS      = ...
-HS_MSG_ADDONNAME = C_AddOns.GetAddOnMetadata( HS_SLUG, "Title" )
-HS_MSG_VERSION   = C_AddOns.GetAddOnMetadata( HS_SLUG, "Version" )
-HS_MSG_AUTHOR    = C_AddOns.GetAddOnMetadata( HS_SLUG, "Author" )
+HS.MSG_ADDONNAME = C_AddOns.GetAddOnMetadata( HS_SLUG, "Title" )
+HS.MSG_VERSION   = C_AddOns.GetAddOnMetadata( HS_SLUG, "Version" )
+HS.MSG_AUTHOR    = C_AddOns.GetAddOnMetadata( HS_SLUG, "Author" )
 
-COLOR_RED = "|cffff0000"
-COLOR_GREEN = "|cff00ff00"
-COLOR_BLUE = "|cff0000ff"
-COLOR_PURPLE = "|cff700090"
-COLOR_YELLOW = "|cffffff00"
-COLOR_ORANGE = "|cffff6d00"
-COLOR_GREY = "|cff808080"
-COLOR_GOLD = "|cffcfb52b"
-COLOR_NEON_BLUE = "|cff4d4dff"
-COLOR_END = "|r"
+HS.COLOR_NEON_BLUE = "|cff4d4dff"
+HS.COLOR_END = "|r"
 
 -- saved log file
 HS_log = {}
@@ -26,12 +18,11 @@ HS.hashIgnore = {
 	["#showtooltip"] = true,
 	["#showtooltips"] = true,
 }
-
 function HS.Print( msg, showName )
 	-- print to the chat frame
 	-- set showName to false to suppress the addon name printing
 	if (showName == nil) or (showName) then
-		msg = COLOR_NEON_BLUE..HS_MSG_ADDONNAME.."> "..COLOR_END..msg
+		msg = HS.COLOR_NEON_BLUE..HS.MSG_ADDONNAME.."> "..HS.COLOR_END..msg
 	end
 	DEFAULT_CHAT_FRAME:AddMessage( msg )
 end
@@ -64,9 +55,6 @@ function HS.OnLoad()
 	HSFrame:RegisterEvent( "PLAYER_REGEN_ENABLED" )
 	HSFrame:RegisterEvent( "UPDATE_MACROS" )
 	HSFrame:RegisterEvent( "GET_ITEM_INFO_RECEIVED" )
-
-	-- HSFrame:RegisterEvent( "NEW_TOY_ADDED" )
-	-- HSFrame:RegisterEvent( "TOYS_UPDATED" )
 end
 function HS.PLAYER_LOGIN( )
 	if not HS_settings.tags then  -- version 2 has a different structure
@@ -100,10 +88,6 @@ function HS.GET_ITEM_INFO_RECEIVED( _, itemID, success )
 		end
 	end
 end
--- function HS.TOYS_UPDATED()
--- 	HS.lastToysUpdated = time()
--- 	HS.LogMsg( "TOYS_UPDATED - "..HS.lastToysUpdated, HS_settings.debug )
--- end
 function HS.PLAYER_REGEN_DISABLED()
 	-- combat start
 	HS.inCombat = true
@@ -268,7 +252,7 @@ function HS.Command( msg )
 	end
 end
 function HS.PrintHelp()
-	HS.Print( string.format(HS.L["%s (%s) by %s"], HS_MSG_ADDONNAME, HS_MSG_VERSION, HS_MSG_AUTHOR ) )
+	HS.Print( string.format(HS.L["%s (%s) by %s"], HS.MSG_ADDONNAME, HS.MSG_VERSION, HS.MSG_AUTHOR ) )
 	for cmd, info in pairs(HS.commandList) do
 		if info.help then
 			local cmdStr = cmd

@@ -1,10 +1,3 @@
-Changes since 2.0-beta2..
+Changes since 2.0..
 
-* 9a0a660 2025-06-23 12:30:13 -0700 -  (HEAD -> master, tag: 2.0-beta2, origin/master) Merge branch 'develop' <opussf>
-* d2d557b 2025-06-23 12:28:22 -0700 -  (origin/develop, develop) Merge branch 'SinglePanel' into develop <opussf>
-* 5897fab 2025-06-23 12:21:08 -0700 -  (origin/SinglePanel, SinglePanel) Italian translation. <opussf>
-* f117ac1 2025-06-23 11:42:15 -0700 -  Button resize based on text <opussf>
-* faf177d 2025-06-23 00:52:51 -0700 -  Toy Box <opussf>
-* 1a87619 2025-06-23 00:11:05 -0700 -  Translation for Descirption <opussf>
-* 1672d42 2025-06-23 00:08:43 -0700 -  More localization <opussf>
-* ee3ab55 2025-06-23 00:03:26 -0700 -  removing older command line system, and some translation <opussf>
+* 0e0a161 2025-06-25 18:31:50 -0700 -  (HEAD -> master, tag: 2.0, origin/master) Description update <opussf>

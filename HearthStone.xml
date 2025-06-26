@@ -35,6 +35,10 @@
 				</Scripts>
 			</Button>
 		</Frames>
+		<Scripts>
+			<OnMouseDown>HS.UIBarOnMouseDown()</OnMouseDown>
+			<OnReceiveDrag>HS.UIOnReceiveDrag( self )</OnReceiveDrag>
+		</Scripts>
 	</Frame>
 
 	<Frame name="HSFrame"  frameStrata="BACKGROUND" toplevel="false" parent="UIParent">
@@ -63,7 +67,7 @@
 			</Layer>
 			<Layer level="ARTWORK">
 				<!-- Header -->
-				<FontString name="$parent_Header" inherits="GameFontNormalLarge" text="HearthStone 2.0-beta2">
+				<FontString name="$parent_Header" inherits="GameFontNormalLarge" text="HearthStone 2.0">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP">
 							<Offset x="0" y="-10"/>
@@ -195,6 +199,9 @@
 						</Texture>
 					</Layer>
 				</Layers>
+				<Scripts>
+					<OnReceiveDrag>HS.UIOnReceiveDrag( self )</OnReceiveDrag>
+				</Scripts>
 			</Frame>
 			<Slider name="$parent_ToyListVSlider" orientation="VERTICAL" minValue="0" maxValue="100" defaultValue="0" valueStep="1">
 				<Size x="12" y="328"/>
@@ -229,8 +236,8 @@
 			<OnLoad>self:Hide()</OnLoad>
 			<OnMouseWheel>HS.UIMouseWheel( delta )</OnMouseWheel>
 			<OnReceiveDrag>HS.UIOnReceiveDrag( self )</OnReceiveDrag>
-			<OnMouseDown>HS.UIOnDragStart()</OnMouseDown>
-			<OnMouseUp>HS.UIOnDragStop()</OnMouseUp>
+			<OnMouseDown>HS.UIOnMouseDown()</OnMouseDown>
+			<OnMouseUp>HS.UIOnMouseUp()</OnMouseUp>
 			<OnHide>HS.UIOnHide()</OnHide>
 		</Scripts>
 	</Frame>

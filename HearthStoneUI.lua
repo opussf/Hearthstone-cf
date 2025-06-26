@@ -188,10 +188,17 @@ function HS.UIMouseWheel( delta )
 		HSConfig_ToyListVSlider:GetValue() - delta
 	)
 end
-function HS.UIOnDragStart()
+function HS.UIBarOnMouseDown()
+	local focus = GetMouseFoci()[1]
+	if focus then
+		local _, itemLink = GetItemInfo( focus.itemID )
+		SetItemRef( "item:"..focus.itemID, itemLink )  -- button?
+	end
+end
+function HS.UIOnMouseDown()
 	HSConfig:StartMoving()
 end
-function HS.UIOnDragStop()
+function HS.UIOnMouseUp()
 	HSConfig:StopMovingOrSizing()
 end
 function HS.UIOnHide()
