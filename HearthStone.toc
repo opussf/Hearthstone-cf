@@ -1,15 +1,26 @@
 ## Title: HearthStone
 ## Interface: 110107
-## Notes: HearthStone (v2.0-beta2)
+## Notes: HearthStone (v2.0)
 ## Author: opussf
-## Version: 2.0-beta2
+## Version: 2.0
+## IconTexture: Interface/Icons/inv_misc_rune_01
 ## Description: Allows building a Hearthstone macro with random stones
 ## Description-deDE: Ermöglicht das Erstellen eines Hearthstone-Makros mit zufälligen Steinen.
 ## Description-esES: Permite construir una macro de Piedra de hogar con piedras aleatorias.
 ## Description-esMX: Permite construir una macro de Piedra de hogar con piedras aleatorias.
 ## Description-frFR: Permet de créer une macro de pierre de foyer avec des pierres aléatoires.
-## Description-ptBR: Permite construir uma macro de Hearthstone com pedras aleatórias
+## Description-itIT: Permette di creare una macro di Hearthstone con pietre casuali.
+## Description-ptBR: Permite construir uma macro de Hearthstone com pedras aleatórias.
 ## Description-ruRU: Позволяет создать макрос Камня возвращения со случайными камнями.
+## Category: Collections
+## Category-enUS: Collections
+## Category-deDE: Kriegsmeutesammlungen
+## Category-esES: Colecciones de banda guerrera
+## Category-esMX: Colecciones de tropa
+## Category-frFR: Collections du bataillon
+## Category-itIT: Collezioni della Brigata
+## Category-ptBR: Coleções do Bando de Guerra
+## Category-ruRU: Коллекции отряда
 ## SavedVariables: HS_settings HS_log
 ## SavedVariablesPerCharacter:
 localization_core.lua
