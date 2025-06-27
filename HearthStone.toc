@@ -1,8 +1,8 @@
 ## Title: HearthStone
 ## Interface: 110107
-## Notes: HearthStone (v2.0.1)
+## Notes: HearthStone (v2.1)
 ## Author: opussf
-## Version: 2.0.1
+## Version: 2.1
 ## IconTexture: Interface/Icons/inv_misc_rune_01
 ## Description: Allows building a Hearthstone macro with random stones
 ## Description-deDE: Ermöglicht das Erstellen eines Hearthstone-Makros mit zufälligen Steinen.

@@ -52,7 +52,7 @@
 		</Scripts>
 	</Frame>
 	<Frame name="HSConfig" toplevel="true" parent="UIParent" enableMouse="true" movable="true" hidden="true" resizable="false">
-		<Size x="700" y="500" />
+		<Size x="600" y="500" />
 		<Anchors>
 			<Anchor point="CENTER"/>
 		</Anchors>
@@ -67,12 +67,15 @@
 			</Layer>
 			<Layer level="ARTWORK">
 				<!-- Header -->
-				<FontString name="$parent_Header" inherits="GameFontNormalLarge" text="HearthStone 2.0.1">
+				<FontString name="$parent_Header" inherits="GameFontNormalLarge" text="HearthStone">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP">
 							<Offset x="0" y="-10"/>
 						</Anchor>
 					</Anchors>
+					<Scripts>
+						<OnLoad>self:SetText("HearthStone "..HS.MSG_VERSION)</OnLoad>
+					</Scripts>
 				</FontString>
 			</Layer>
 		</Layers>
@@ -82,7 +85,7 @@
 					<Anchor point="TOPRIGHT" x="0" y="0"/>
 				</Anchors>
 				<Scripts>
-					<OnClick>self:GetParent():Hide(); HS.UpdateMacros()</OnClick>
+					<OnClick>self:GetParent():Hide();HSExport:Hide();HSImport:Hide();HS.UpdateMacros()</OnClick>
 				</Scripts>
 			</Button>
 			<Frame name="$parent_TagDropDownMenu" inherits="UIDropDownMenuTemplate" parentKey="TagDropDownMenu">
@@ -113,46 +116,32 @@
 					<OnClick>HS.TagButtonOnClick( self, "del" )</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="$parent_EditTagButton" parentKey="EditTagButton" inherits="UIPanelButtonTemplate">
-				<Size x="76" y="30" />
+			<Button name="$parent_AddTagButton" parentKey="AddTagButton" inherits="UIPanelButtonTemplate">
 				<Anchors>
-					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_DelTagButton">
-						<Offset>
-							<AbsDimension x="80" y="0" />
-						</Offset>
-					</Anchor>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="$parent" x="-38" y="-42"/>
 				</Anchors>
 				<Scripts>
-					<OnLoad>self:SetText(HS.L["Rename"]);HS.UIAdjustButton(self)</OnLoad>
-					<OnClick>HS.TagButtonOnClick( self, "edit" )</OnClick>
+					<OnLoad>self:SetText(HS.L["Add"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>HS.TagButtonOnClick( self, "add" )</OnClick>
 				</Scripts>
 			</Button>
 			<EditBox name="$parent_TagEditBox" parentKey="TagEditBox" inherits="InputBoxTemplate">
-				<Size x="150" y="30" />
+				<Size x="80" y="30" />
 				<Anchors>
-					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_EditTagButton">
-						<Offset>
-							<AbsDimension x="10" y="0"/>
-						</Offset>
-					</Anchor>
+					<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="$parent_AddTagButton" x="-10" y="0"/>
 				</Anchors>
 				<Scripts>
 					<OnLoad>self:SetAutoFocus( false )</OnLoad>
 					<!-- <OnTextChanged>Rested.updateFilter()</OnTextChanged> -->
 				</Scripts>
 			</EditBox>
-			<Button name="$parent_AddTagButton" parentKey="AddTagButton" inherits="UIPanelButtonTemplate">
-				<Size x="76" y="30" />
+			<Button name="$parent_EditTagButton" parentKey="EditTagButton" inherits="UIPanelButtonTemplate">
 				<Anchors>
-					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_TagEditBox">
-						<Offset>
-							<AbsDimension x="10" y="0" />
-						</Offset>
-					</Anchor>
+					<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="$parent_TagEditBox" x="-10" y="0"/>
 				</Anchors>
 				<Scripts>
-					<OnLoad>self:SetText(HS.L["Add"]);HS.UIAdjustButton(self)</OnLoad>
-					<OnClick>HS.TagButtonOnClick( self, "add" )</OnClick>
+					<OnLoad>self:SetText(HS.L["Rename"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>HS.TagButtonOnClick( self, "edit" )</OnClick>
 				</Scripts>
 			</Button>
 			<Frame name="$parent_ModifierDropDownMenu" inherits="UIDropDownMenuTemplate" parentKey="ModifierDropDownMenu">
@@ -231,6 +220,24 @@
 				</Anchors>
 				<FontString inherits="GameFontHighlight"/>
 			</EditBox>
+			<Button name="$parent_Import" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parent" x="-38" y="-84"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Import"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>HS.ImportOnClick()</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_Export" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent_Import" relativePoint="LEFT" x="-10"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Export"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>HS.ExportOnClick()</OnClick>
+				</Scripts>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad>self:Hide()</OnLoad>
@@ -238,7 +245,129 @@
 			<OnReceiveDrag>HS.UIOnReceiveDrag( self )</OnReceiveDrag>
 			<OnMouseDown>HS.UIOnMouseDown()</OnMouseDown>
 			<OnMouseUp>HS.UIOnMouseUp()</OnMouseUp>
-			<OnHide>HS.UIOnHide()</OnHide>
+			<OnHide>HS.UIOnHide();HSExport:Hide()</OnHide>
+		</Scripts>
+	</Frame>
+	<Frame name="HSExport" toplevel="true" parent="UIParent" enableMouse="true" movable="false" hidden="true">
+		<Size x="600" y="50"/>
+		<Anchors>
+			<Anchor point="TOP" relativeTo="HSConfig" relativePoint="BOTTOM"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture setAllPoints="true">
+					<Color r="0" g="0" b="0"/>
+				</Texture>
+				<FontString name="$parent_CopyText" inherits="GameFontWhite" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="5" y="0"/>
+					</Anchors>
+					<Scripts>
+						<OnLoad>self:SetText(HS.L["Copy the export string to share or save it."])</OnLoad>
+					</Scripts>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox name="$parent_EditBox" inherits="InputBoxTemplate" multiLine="false">
+				<Size x="590" y="20"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="5"/>
+				</Anchors>
+				<FontString name="$parent_FontString" inherits="ChatFontNormal"/>
+				<Scripts>
+					<OnLoad>self:SetAutoFocus( false )</OnLoad>
+					<OnShow>self:SetFocus()</OnShow>
+				</Scripts>
+			</EditBox>
+			<Button name="$parent_Close" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parent"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Close"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>self:GetParent():Hide()</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_ExportLink" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent_Close" relativePoint="LEFT" x="-10"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Post"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>HS.ExportLink()</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>self:Hide()</OnLoad>
+			<OnShow></OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="HSImport" toplevel="true" parent="UIParent" enableMouse="true" movable="false" hidden="true">
+		<Size x="600" y="50"/>
+		<Anchors>
+			<Anchor point="TOP" relativeTo="HSConfig" relativePoint="BOTTOM"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture setAllPoints="true">
+					<Color r="0" g="0" b="0"/>
+				</Texture>
+				<FontString name="$parent_CopyText" inherits="GameFontWhite" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="BOTTOM" x="0" y="5"/>
+					</Anchors>
+					<Scripts>
+						<OnLoad>self:SetText(HS.L["New #hash on the left, export string above."])</OnLoad>
+					</Scripts>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox name="$parent_EditBox" inherits="InputBoxTemplate" multiLine="false">
+				<Size x="590" y="20"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="5"/>
+				</Anchors>
+				<FontString name="$parent_FontString" inherits="ChatFontNormal"/>
+				<Scripts>
+					<OnLoad>self:SetAutoFocus( false )</OnLoad>
+					<OnShow>self:SetFocus()</OnShow>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parent_TagEditBox" inherits="InputBoxTemplate" multiLine="false">
+				<Size x="100" y="20"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" x="5"/>
+				</Anchors>
+				<FontString name="$parent_FontString" inherits="ChatFontNormal"/>
+				<Scripts>
+					<OnShow>self:SetText(HS.L["New"])</OnShow>
+					<OnLoad>self:SetAutoFocus( false )</OnLoad>
+				</Scripts>
+			</EditBox>
+			<Button name="$parent_Close" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parent"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Close"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>self:GetParent():Hide()</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_Add" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent_Close" relativePoint="LEFT" x="-10"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self:SetText(HS.L["Add"]);HS.UIAdjustButton(self)</OnLoad>
+					<OnClick>HS.ImportFromString()</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>self:Hide()</OnLoad>
 		</Scripts>
 	</Frame>
 </Ui>

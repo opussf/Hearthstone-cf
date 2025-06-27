@@ -13,9 +13,9 @@ function HS.ShowConfig()
 		end
 	end, HS_SLUG )
 end
-HS.commandList["config"] = {
+HS.commandList[HS.L["config"]] = {
 	["func"] = HS.ShowConfig,
-	["help"] = {"", "Config"}
+	["help"] = {"", HS.L["config"]}
 }
 
 function HS.UIInit()
@@ -23,7 +23,6 @@ function HS.UIInit()
 	HS.ModifierDropDownBuild( HSConfig_ModifierDropDownMenu )
 	HS.BuildBars()
 end
-
 function HS.TagDropDownBuild( self )
 	UIDropDownMenu_Initialize( self, HS.TagDropDownPopulate )
 	UIDropDownMenu_JustifyText( self, "LEFT" )
@@ -55,7 +54,6 @@ function HS.SetTagForEdit( info )
 	HSConfig_TagEditBox:SetText( info.value )
 	HS.UpdateUI()
 end
-
 function HS.ModifierDropDownBuild( self )
 	UIDropDownMenu_Initialize( self, HS.ModifierDropDownInit )
 	UIDropDownMenu_JustifyText( self, "LEFT" )
@@ -118,6 +116,7 @@ function HS.TagButtonOnClick( self, action )
 			-- print( "delete:", selectedTag )
 			HS_settings.tags[selectedTag] = nil
 			HS.TagDropDownBuild( HSConfig_TagDropDownMenu )
+			HS.UpdateUI()
 		end
 	end
 end
@@ -238,4 +237,85 @@ function HS.ToyBoxButtonOnClick( self )
 end
 function HS.UIAdjustButton( self )
 	self:SetWidth( self.Text:GetStringWidth() + 24 )
+end
+-------
+function HS.BuildExportString()
+	local hashStruct = HS_settings.tags[UIDropDownMenu_GetText( HSConfig_TagDropDownMenu )]
+	local modList = { [0]="normal" }
+	for _, mod in ipairs( HS.modOrder ) do
+		table.insert( modList, mod )
+	end
+	local itemBitWidth=1
+	local dataEntries = { { value=itemBitWidth, bitWidth=5 } }  -- come back and set this with the right bitWidth
+	local l2 = math.log(2)
+	for idx = 0, #modList do
+		local itemCount = ( hashStruct[modList[idx]] and #hashStruct[modList[idx]] or 0 )
+		table.insert( dataEntries, { value=itemCount, bitWidth=8 } )  -- 8 bits (0-255)
+		if itemCount > 0 then
+			for _, itemID in ipairs( hashStruct[modList[idx]] ) do
+				itemID = tonumber( itemID )
+				itemBitWidth = math.max( itemBitWidth, math.log( itemID )/l2 )
+				table.insert( dataEntries, { value=itemID, bitWidth=0 } )
+			end
+		end
+	end
+	itemBitWidth = math.ceil( itemBitWidth )
+	dataEntries[1].value = itemBitWidth
+	for _, struct in ipairs( dataEntries ) do
+		if struct.bitWidth == 0 then
+			struct.bitWidth = itemBitWidth
+		end
+	end
+	return ExportUtil.ConvertToBase64( dataEntries )
+end
+function HS.ExportOnClick()
+	HSImport:Hide()
+	HSExport_EditBox:SetText(HS.BuildExportString())
+	HSExport_EditBox:HighlightText()
+	HSExport_EditBox:SetFocus()
+	HSExport:Show()
+end
+function HS.ExportLink()
+	local exportHash = HS.BuildExportString() -- rebuilt in case the editbox is corrupted
+	ChatFrame_OpenChat( string.format( "HearthStone Import: %s", exportHash ) )
+end
+---------
+function HS.ImportOnClick()
+	HSExport:Hide()
+	HSImport:Show()
+end
+function HS.ImportFromString()
+	local newTag = HSImport_TagEditBox:GetText()
+	local importString = HSImport_EditBox:GetText()
+	if string.len( newTag ) > 0 and string.len( importString ) > 0 then
+		local modList = { [0]="normal" }
+		for _, mod in ipairs( HS.modOrder ) do
+			table.insert( modList, mod )
+		end
+		if string.sub( newTag, 1, 1 ) ~= "#" then
+			newTag = "#"..newTag
+		end
+		if not HS_settings.tags[newTag] then
+			local itemID
+			HS_settings.tags[newTag] = {}
+			local IDS = CreateFromMixins( ImportDataStreamMixin )
+			IDS:Init( importString )
+			-- print( "-bits:", IDS:GetNumberOfBits(), IDS.currentExtractedBits, IDS.currentRemainingValue )
+			local itemBitWidth = IDS:ExtractValue( 5 )
+			for idx = 0, #modList do
+				local itemCount = IDS:ExtractValue( 8 )
+				-- print( "--bits:", IDS:GetNumberOfBits(), IDS.currentExtractedBits, IDS.currentRemainingValue )
+				for i = 1,( itemCount or 0 ) do
+					itemID = IDS:ExtractValue( itemBitWidth )
+					-- print( "---bits:", IDS:GetNumberOfBits(), IDS.currentExtractedBits, IDS.currentRemainingValue )
+					HS_settings.tags[newTag][modList[idx]] = HS_settings.tags[newTag][modList[idx]] or {}
+					table.insert( HS_settings.tags[newTag][modList[idx]], itemID )
+				end
+			end
+		end
+		HS.TagDropDownBuild( HSConfig_TagDropDownMenu )
+		UIDropDownMenu_SetText( HSConfig_TagDropDownMenu, newTag )
+		HSConfig_TagEditBox:SetText( newTag )
+		HS.UpdateUI()
+	end
 end

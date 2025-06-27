@@ -1,4 +1,4 @@
-Welcome to HearthStone v2.0
+Welcome to HearthStone v2.1
 
 NOTE TO CURRENT USERS:
 I changed how this addon modifies the macros.
@@ -6,13 +6,13 @@ I changed how this addon modifies the macros.
 It now changes the line that your tag is on to something like "/use item:6948#hs", and not the line after the "#hs".
 You will want to edit your macro, and remove the hearthstone usage line from before.
 
-The macro charater limit is tight, and 1 character here or there can make a difference.
+The macro character limit is tight, and 1 character here or there can make a difference.
 
 What this does:
 
 Allows editing of a macro to use specific or random hearthstones (or toys really).
-A seperate list can be configured for each modifier.
-If more than one hearthstone is given for a modifier, then a random one that is available and usable will be choosen.
+A separate list can be configured for each modifier.
+If more than one hearthstone is given for a modifier, then a random one that is available and usable will be chosen.
 
 How to use:
 
