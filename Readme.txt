@@ -1,4 +1,4 @@
-Welcome to HearthStone v2.1.3
+Welcome to HearthStone v2.1.4
 
 NOTE TO CURRENT USERS:
 I changed how this addon modifies the macros.
