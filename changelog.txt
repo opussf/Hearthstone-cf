@@ -1,3 +1,6 @@
-Changes since 2.1.6..
+Changes since 2.1.7..
 
-* 322030c 2026-08-11 17:22:40 -0700 -  (HEAD -> master, tag: 2.1.6, origin/master, origin/HEAD) 12.1.0 <opussf>
+* 73313fb 2026-08-30 11:33:08 -0700 -  (HEAD -> master, tag: 2.1.7, origin/master, origin/HEAD) Merge branch 'develop' <opussf>
+* 36e3a5b 2026-08-30 11:32:21 -0700 -  (origin/develop, develop) Merge branch 'usePreview' into develop <opussf>
+* 6ac9e67 2026-08-29 23:57:12 -0700 -  (usePreview) Better Logging <opussf>
+* 8e061ca 2026-08-29 22:58:34 -0700 -  Changing size of preview editbox <opussf>

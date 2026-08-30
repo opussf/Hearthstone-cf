@@ -133,6 +133,7 @@ function HS.UPDATE_MACROS()
 	HS.UpdateMacros()
 end
 function HS.MakeUseLine( hash )
+	HS.LogMsg( "MakeUseLine( "..hash.." )", HS_settings.debug )
 	if HS_settings.tags[hash] then
 		local hsLine = "/use "
 		for _, modKey in ipairs( HS.modOrder ) do
@@ -185,7 +186,7 @@ function HS.GetItemFromList( list )
 	if list then
 		local returnItem
 		if #list == 1 then
-			HS.LogMsg( "Only 1 item found in given list: "..list[1], HS_settings.debug )
+			HS.LogMsg( "Only 1 item ("..list[1]..") "..(select(2, GetItemInfo(list[1])) or "nil"), HS_settings.debug )
 			returnItem = list[1]
 		else
 			local r
