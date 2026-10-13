@@ -78,7 +78,7 @@ function HS.GET_ITEM_INFO_RECEIVED( _, itemID, success )
 			local cacheCount = 0
 			for i in pairs( HS.toCache ) do
 				cacheCount = cacheCount + 1
-				local name = GetItemInfo( i )
+				local name = C_Item.GetItemInfo( i )
 				-- print( "re-request:", i, type(i), name )
 			end
 			-- print( "toCacheSize:", cacheCount )
@@ -110,7 +110,7 @@ function HS.LOADING_SCREEN_DISABLED()
 		for mod, items in pairs( mods ) do
 			-- print( "mod:"..mod )
 			for i,item in pairs( items ) do
-				name = GetItemInfo( item )
+				name = C_Item.GetItemInfo( item )
 				-- print( i, item, name )
 				if not name then
 					HS.toCache = HS.toCache or {}
@@ -186,7 +186,7 @@ function HS.GetItemFromList( list )
 	if list then
 		local returnItem
 		if #list == 1 then
-			HS.LogMsg( "Only 1 item ("..list[1]..") "..(select(2, GetItemInfo(list[1])) or "nil"), HS_settings.debug )
+			HS.LogMsg( "Only 1 item ("..list[1]..") "..(select(2, C_Item.GetItemInfo(list[1])) or "nil"), HS_settings.debug )
 			returnItem = list[1]
 		else
 			local r
@@ -194,7 +194,7 @@ function HS.GetItemFromList( list )
 			local count = 0
 			while( not r and count <= limit ) do
 				r = random(#list)
-				HS.LogMsg( "Picking "..r.."/"..#list.." ("..list[r]..") "..(select(2, GetItemInfo(list[r])) or "nil"), HS_settings.debug )
+				HS.LogMsg( "Picking "..r.."/"..#list.." ("..list[r]..") "..(select(2, C_Item.GetItemInfo(list[r])) or "nil"), HS_settings.debug )
 				count = count + 1
 				if list[r] == "6948" then
 					HS.LogMsg("HearthStone: "..(GetItemCount(list[r]) or "no count"), HS_settings.debug)

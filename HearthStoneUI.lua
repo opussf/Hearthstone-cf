@@ -155,7 +155,7 @@ function HS.UpdateUI()
 				for i = 1, 9 do
 					local idx = i + offset
 					if idx <= count then
-						name, _, _, _, _, _, _, _, _, icon = GetItemInfo(HS_settings.tags[tag][mod][idx])
+						name, _, _, _, _, _, _, _, _, icon = C_Item.GetItemInfo(HS_settings.tags[tag][mod][idx])
 						if name then
 							barName = HS.bars[i].bar:GetName()
 							_G[barName.."ToyName"]:SetText( name )
@@ -190,7 +190,7 @@ end
 function HS.UIBarOnMouseDown()
 	local focus = GetMouseFoci()[1]
 	if focus then
-		local _, itemLink = GetItemInfo( focus.itemID )
+		local _, itemLink = C_Item.GetItemInfo( focus.itemID )
 		SetItemRef( "item:"..focus.itemID, itemLink )  -- button?
 	end
 end
